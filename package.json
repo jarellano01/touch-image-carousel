@@ -1,0 +1,23 @@
+{
+  "name": "carousel-w-pan-zoom",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://codesandbox.io/s/new",
+  "main": "src/index.js",
+  "dependencies": {
+    "lodash-es": "4.17.15",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "react-scripts": "3.0.0",
+    "react-spring": "9.0.0-beta.34",
+    "react-use-gesture": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
