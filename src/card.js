@@ -11,19 +11,21 @@ function Card({ img }) {
     scale: 1,
     zoom: 0,
     x: 0,
-    y: 0
+    y: 0,
+    immediate: true
   }))
 
-  const [drag, setDrag] = React.useState(false)
-
   const setPosition = ({ x, y }) => {
+    const xSign = Math.sign(x)
+    const newX = Math.abs(x) < window.innerWidth / 2 ? x : (window.innerWidth / 2) * xSign
     set({ x, y })
   }
   const bind = useGesture(
     {
-      onDragStart: () => setDrag(true),
-      onDrag: ({ offset: [x, y] }) => setPosition({ x, y }),
-      onDragEnd: () => setDrag(false),
+      onDrag: ({ offset: [x, y], ...props }) => {
+        console.log(props)
+        setPosition({ x, y })
+      },
       onPinch: ({ offset: [d, a] }) => set({ zoom: d / 200 })
     },
     { domTarget, event: { passive: false } }

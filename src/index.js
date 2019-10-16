@@ -21,33 +21,32 @@ function Viewpager() {
 
   const [props, set] = useSprings(pages.length, i => ({
     x: i * window.innerWidth,
-    scale: 1,
     display: 'block'
   }))
 
-  const goToPage = ({ down, distance, mx, pageIndex }) => {
-    set(i => {
-      if (i < pageIndex - 1 || i > pageIndex + 1) return { display: 'none' }
-      const x = (i - pageIndex) * window.innerWidth + (down ? mx : 0)
-      const scale = down ? 1 - distance / window.innerWidth / 2 : 1
-      return { x, scale, display: 'block' }
-    })
+  const goToPage = ({ down, mx, pageIndex, immediate = false }) => {
+    // set(i => {
+    //   if (i < pageIndex - 1 || i > pageIndex + 1) return { display: 'none' }
+    //   const x = (i - pageIndex) * window.innerWidth + (down ? mx : 0)
+    //   return { to: { x, display: 'block' }, immediate }
+    // })
   }
-  const bind = useDrag(({ down, movement: [mx], direction: [xDir], distance, cancel }) => {
-    if (down && distance > window.innerWidth / 2)
-      cancel((index.current = clamp(index.current + (xDir > 0 ? -1 : 1), 0, pages.length - 1)))
-    goToPage({ down, distance, mx, pageIndex: index.current })
-  })
 
   const goToPageIndex = newCurrent => {
     index.current = newCurrent
-    goToPage({ pageIndex: newCurrent })
+    goToPage({ pageIndex: newCurrent, immediate: true })
   }
+
+  const bind = useDrag(({ down, movement: [mx], direction: [xDir], distance, cancel }) => {
+    if (down && distance > window.innerWidth / 2)
+      cancel((index.current = clamp(index.current + (xDir > 0 ? -1 : 1), 0, pages.length - 1)))
+    goToPage({ down, mx, pageIndex: index.current })
+  })
 
   return (
     <div>
       <button onClick={() => goToPageIndex(3)}>Test</button>
-      {props.map(({ x, display, scale }, i) => (
+      {props.map(({ x, display }, i) => (
         <animated.div {...bind()} key={i} style={{ display, x }} className="animated-container">
           <animated.div className="carousel-container">
             <animated.div className="carousel-content">
